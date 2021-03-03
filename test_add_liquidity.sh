@@ -30,7 +30,7 @@ fund_pair=0
 # REMOVE LIQUIDITY
 
 # Select which pair to defund, 0 => tokenA/tokenB, 1 => tokenA/AUT, 2=> tokenB/AUT. Leave blank to skip removing liquidity.
-defund_pair=1
+defund_pair=
 # Amount of liquidity tokens to remove
 liquidity=200
 
