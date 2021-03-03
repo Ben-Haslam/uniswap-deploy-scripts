@@ -20,7 +20,7 @@ amountOutMin=0
 amountInMax=1000
 amountOut=500
 
-which_swap=3
+which_swap=0
 # choose which swap function, leave empty to skip
 swap='A'
 # Let swap be A to swap token A > token B, B to swap token B > token A.
