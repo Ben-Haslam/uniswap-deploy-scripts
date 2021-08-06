@@ -1,7 +1,7 @@
-const Factory = require("./node_modules/@uniswap/v2-core/build/UniswapV2Factory.json");
-const Pair = require("./node_modules/@uniswap/v2-core/build/UniswapV2Pair.json");
+const Factory = require("./build/UniswapV2Factory.json");
 const Router = require("./node_modules/@uniswap/v2-periphery/build/UniswapV2Router02.json");
-const ERC20 = require("./node_modules/@openzeppelin/contracts/build/contracts/ERC20.json");
+const ERC20 = require("./node_modules/@openzeppelin/contracts/build/contracts/ERC20PresetFixedSupply.json");
+const Pair = require("./build/UniswapV2Pair.json");
 const WETH = require("./node_modules/canonical-weth/build/contracts/WETH9.json");
 
 //-------------------------------------------------------------------

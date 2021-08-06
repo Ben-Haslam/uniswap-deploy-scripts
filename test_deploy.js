@@ -1,10 +1,9 @@
 const Web3 = require("web3");
-const Factory = require("./uniswap-v2-core/build/UniswapV2Factory.json");
-const Router = require("./uniswap-v2-periphery/build/UniswapV2Router02.json");
-const ERC20 = require("./uniswap-v2-core/build/ERC20.json");
-const Pair = require("./uniswap-v2-core/build/UniswapV2Pair.json");
-const WETH = require("./canonical-weth/build/contracts/WETH9.json");
-const Multicall = require("./multicall/build/Multicall.json");
+const Factory = require("./build/UniswapV2Factory.json");
+const Router = require("./node_modules/@uniswap/v2-periphery/build/UniswapV2Router02.json");
+const ERC20 = require("./node_modules/@openzeppelin/contracts/build/contracts/ERC20PresetFixedSupply.json");
+const Pair = require("./build/UniswapV2Pair.json");
+const WETH = require("./node_modules/canonical-weth/build/contracts/WETH9.json");
 
 const wethAddress = "0x3f0D1FAA13cbE43D662a37690f0e8027f9D89eBF";
 const gaslimit = 10000000;
@@ -36,8 +35,9 @@ async function deployTokens(web3, sender) {
       arguments: [
         "tokenA",
         "TA",
-        18,
+        // 18,
         web3.utils.toWei("9999999999999999999", "ether"),
+        sender,
       ],
     })
     .send({ from: sender, gas: gaslimit, gasprice: GasPrice });
@@ -50,8 +50,9 @@ async function deployTokens(web3, sender) {
       arguments: [
         "tokenB",
         "TB",
-        18,
+        // 18,
         web3.utils.toWei("9999999999999999999", "ether"),
+        sender,
       ],
     })
     .send({ from: sender, gas: gaslimit, gasprice: GasPrice });
@@ -144,7 +145,7 @@ async function foo() {
   const id = await web3.eth.net.getId();
 
   const account = web3.eth.accounts.wallet.add(
-    "0x430a5c8a66f1134ebcd789cfbed18121207b79c20a22a96ef966859b0d03a438"
+    "EBE1978D0906698B98F20E26CD861C72431CC6EE67E636AB15EDE06970556AB7"
   );
   const myAddress = web3.utils.toChecksumAddress(account.address);
 
@@ -162,8 +163,8 @@ async function foo() {
   );
   const router = new web3.eth.Contract(Router.abi, routerAddress);
 
-  const multicallAddress = await deployMulticall(web3, myAddress);
-  const multicall = new web3.eth.Contract(Multicall.abi, multicallAddress);
+  // const multicallAddress = await deployMulticall(web3, myAddress);
+  // const multicall = new web3.eth.Contract(Multicall.abi, multicallAddress);
 
   const [tokenAAddress, tokenBAddress] = await deployTokens(web3, myAddress);
 
