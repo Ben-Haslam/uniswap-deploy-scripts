@@ -5,7 +5,11 @@ const ERC20 = require("./node_modules/@openzeppelin/contracts/build/contracts/ER
 const Pair = require("./build/UniswapV2Pair.json");
 const WETH = require("./node_modules/canonical-weth/build/contracts/WETH9.json");
 
-const wethAddress = "0x3f0D1FAA13cbE43D662a37690f0e8027f9D89eBF";
+const RPC = "https://rpc.devnet.clearmatics.network:8545";
+const prvKey =
+  "ebe1978d0906698b98f20e26cd861c72431cc6ee67e636ab15ede06970556ab7";
+
+const wethAddress = "0x724Ec33AB064A7628e2c8B257b9C3351B8F2036E"; // To deploy weth use remix
 const gaslimit = 10000000;
 
 const GasPrice = 1;
@@ -119,34 +123,38 @@ async function checkPair(
   sender,
   routerAddress
 ) {
-  const pairAddress = await factoryContract.methods
-    .getPair(tokenAAddress, tokenBAddress)
-    .call({ from: sender, gas: gaslimit, gasprice: GasPrice });
+  try {
+    console.log("tokenAAddress: ", tokenAAddress);
+    console.log("tokenBAddress: ", tokenBAddress);
 
-  console.log("tokenA Address", tokenAAddress);
-  console.log("tokenA Address", tokenBAddress);
-  console.log("pairAddress", pairAddress);
-  console.log("router address", routerAddress);
+    const pairAddress = await factoryContract.methods
+      .getPair(tokenAAddress, tokenBAddress)
+      .call();
 
-  const pair = new web3.eth.Contract(Pair.abi, pairAddress);
+    console.log("tokenA Address", tokenAAddress);
+    console.log("tokenA Address", tokenBAddress);
+    console.log("pairAddress", pairAddress);
+    console.log("router address", routerAddress);
 
-  const reserves = await pair.methods
-    .getReserves()
-    .call({ from: sender, gas: gaslimit, gasprice: GasPrice });
+    const pair = new web3.eth.Contract(Pair.abi, pairAddress);
 
-  console.log("reserves for token A", web3.utils.fromWei(reserves._reserve0));
-  console.log("reserves for token B", web3.utils.fromWei(reserves._reserve1));
+    const reserves = await pair.methods.getReserves().call();
+
+    console.log("reserves for token A", web3.utils.fromWei(reserves._reserve0));
+    console.log("reserves for token B", web3.utils.fromWei(reserves._reserve1));
+  } catch (err) {
+    console.log("the check pair reverted! Lets see why...");
+    console.log(err);
+  }
 }
 
 // the most amazing function on earth
 async function foo() {
-  const web3 = new Web3("https://rpc3.bakerloo.autonity.network:8545");
+  const web3 = new Web3(RPC);
 
   const id = await web3.eth.net.getId();
 
-  const account = web3.eth.accounts.wallet.add(
-    "EBE1978D0906698B98F20E26CD861C72431CC6EE67E636AB15EDE06970556AB7"
-  );
+  const account = web3.eth.accounts.wallet.add(prvKey);
   const myAddress = web3.utils.toChecksumAddress(account.address);
 
   const factoryAddress = await deployFactory(web3, myAddress, myAddress);
@@ -197,6 +205,8 @@ async function foo() {
   await approve(weth, wethAddress, amountA, myAddress);
   await approve(weth, spender, amountA, myAddress);
 
+  console.log("OK!");
+
   // try to add liquidity to a non-existen pair contract
   try {
     await router.methods
@@ -241,6 +251,8 @@ async function foo() {
         gasprice: GasPrice,
       });
   }
+
+  console.log("balls");
 
   await checkPair(
     web3,
