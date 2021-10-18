@@ -1,17 +1,15 @@
 const Web3 = require("web3");
-const Factory = require("./build/UniswapV2Factory.json");
+const Factory = require("./node_modules/@uniswap/v2-core/build/UniswapV2Factory.json");
 const Router = require("./node_modules/@uniswap/v2-periphery/build/UniswapV2Router02.json");
 const ERC20 = require("./node_modules/@openzeppelin/contracts/build/contracts/ERC20PresetFixedSupply.json");
-const Pair = require("./build/UniswapV2Pair.json");
+const Pair = require("./node_modules/@uniswap/v2-core/build/UniswapV2Pair.json");
 const WETH = require("./node_modules/canonical-weth/build/contracts/WETH9.json");
 
 const RPC = "https://rpc3.bakerloo.autonity.network:8545";
 const prvKey =
   "ebe1978d0906698b98f20e26cd861c72431cc6ee67e636ab15ede06970556ab7";
 
-const wethAddress = "0x3f0D1FAA13cbE43D662a37690f0e8027f9D89eBF"; // To deploy weth use remix
 const gaslimit = 10000000;
-
 const GasPrice = 1;
 
 // deploy Weth
@@ -74,8 +72,6 @@ async function deployRouter(web3, factoryAddress, wethAddress, sender) {
     .send({ from: sender, gas: gaslimit, gasprice: GasPrice });
 
   console.log("router address", router.options.address);
-  WETH_address = await router.methods.WETH().call();
-  console.log("WETH address ", WETH_address);
 
   return router.options.address;
 }

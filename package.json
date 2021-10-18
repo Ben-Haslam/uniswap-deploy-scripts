@@ -4,7 +4,7 @@
   "description": "For testing uniswap on autonity",
   "dependencies": {
     "@openzeppelin/contracts": "^3.4.0",
-    "@uniswap/v2-core": "github:uniswap/uniswap-v2-core",
+    "@uniswap/v2-core": "^1.0.1",
     "@uniswap/v2-periphery": "^1.1.0-beta.0",
     "@uniswap/v2-sdk": "^3.0.0",
     "canonical-weth": "^1.4.0",
