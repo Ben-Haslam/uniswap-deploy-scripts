@@ -5,27 +5,27 @@ const ERC20 = require("./node_modules/@openzeppelin/contracts/build/contracts/ER
 const Pair = require("./build/UniswapV2Pair.json");
 const WETH = require("./node_modules/canonical-weth/build/contracts/WETH9.json");
 
-const RPC = "https://rpc.devnet.clearmatics.network:8545";
+const RPC = "https://rpc3.bakerloo.autonity.network:8545";
 const prvKey =
   "ebe1978d0906698b98f20e26cd861c72431cc6ee67e636ab15ede06970556ab7";
 
-const wethAddress = "0x724Ec33AB064A7628e2c8B257b9C3351B8F2036E"; // To deploy weth use remix
+const wethAddress = "0x3f0D1FAA13cbE43D662a37690f0e8027f9D89eBF"; // To deploy weth use remix
 const gaslimit = 10000000;
 
 const GasPrice = 1;
 
-// deploy Multicall
+// deploy Weth
 
-async function deployMulticall(web3, sender) {
-  let multicall = new web3.eth.Contract(Multicall.abi);
+async function deployWeth(web3, sender) {
+  let weth = new web3.eth.Contract(WETH.abi);
 
-  multicall = await multicall
-    .deploy({ data: Multicall.bytecode })
+  weth = await weth
+    .deploy({ data: WETH.bytecode })
     .send({ from: sender, gas: gaslimit, gasprice: GasPrice });
 
-  console.log("multicall address", multicall.options.address);
+  console.log("Weth address", weth.options.address);
 
-  return multicall.options.address;
+  return weth.options.address;
 }
 
 // deploy two ERC20 contracts
@@ -157,8 +157,10 @@ async function foo() {
   const account = web3.eth.accounts.wallet.add(prvKey);
   const myAddress = web3.utils.toChecksumAddress(account.address);
 
-  const factoryAddress = await deployFactory(web3, myAddress, myAddress);
+  const wethAddress = await deployWeth(web3, myAddress);
+  const weth = new web3.eth.Contract(WETH.abi, wethAddress);
 
+  const factoryAddress = await deployFactory(web3, myAddress, myAddress);
   const factory = new web3.eth.Contract(Factory.abi, factoryAddress);
 
   console.log("Router!");
@@ -178,7 +180,6 @@ async function foo() {
 
   const tokenA = new web3.eth.Contract(ERC20.abi, tokenAAddress);
   const tokenB = new web3.eth.Contract(ERC20.abi, tokenBAddress);
-  const weth = new web3.eth.Contract(WETH.abi, wethAddress);
 
   console.log("tokenA", tokenA.options.address);
   console.log("tokenB", tokenB.options.address);
@@ -204,8 +205,6 @@ async function foo() {
   await approve(tokenB, spender, amountB, myAddress);
   await approve(weth, wethAddress, amountA, myAddress);
   await approve(weth, spender, amountA, myAddress);
-
-  console.log("OK!");
 
   // try to add liquidity to a non-existen pair contract
   try {
@@ -251,8 +250,6 @@ async function foo() {
         gasprice: GasPrice,
       });
   }
-
-  console.log("balls");
 
   await checkPair(
     web3,
