@@ -5,96 +5,118 @@ const ERC20 = require("./node_modules/@openzeppelin/contracts/build/contracts/ER
 const Pair = require("./node_modules/@uniswap/v2-core/build/UniswapV2Pair.json");
 const WETH = require("./node_modules/canonical-weth/build/contracts/WETH9.json");
 
-const RPC = "https://rpc3.bakerloo.autonity.network:8545";
-const prvKey =
-  "ebe1978d0906698b98f20e26cd861c72431cc6ee67e636ab15ede06970556ab7";
+const RPC = "https://rpc.devnet.clearmatics.network:8545";
+// const RPC = "http://localhost:8545";
 
-const gaslimit = 10000000;
-const GasPrice = 1;
+const prvKey =
+  "EBE1978D0906698B98F20E26CD861C72431CC6EE67E636AB15EDE06970556AB7";
+
+const GasPrice = 0.000005;
+const GasLimit = 100000000;
 
 // deploy Weth
 
 async function deployWeth(web3, sender) {
-  let weth = new web3.eth.Contract(WETH.abi);
+  try {
+    let weth = new web3.eth.Contract(WETH.abi);
+    weth = await weth
+      .deploy({ data: WETH.bytecode })
+      .send({ from: sender, gas: GasLimit, gasprice: GasPrice })
 
-  weth = await weth
-    .deploy({ data: WETH.bytecode })
-    .send({ from: sender, gas: gaslimit, gasprice: GasPrice });
+    console.log("Weth address", weth.options.address);
 
-  console.log("Weth address", weth.options.address);
-
-  return weth.options.address;
+    return weth.options.address;
+  } catch(error) {
+    console.log('Weth deployment went wrong! Lets see what happened...')
+    console.log(error)
+  }
 }
 
 // deploy two ERC20 contracts
 async function deployTokens(web3, sender) {
-  let tokenA = new web3.eth.Contract(ERC20.abi);
-  let tokenB = new web3.eth.Contract(ERC20.abi);
+  try {
+    let tokenA = new web3.eth.Contract(ERC20.abi);
+    let tokenB = new web3.eth.Contract(ERC20.abi);
+  
+    tokenA = await tokenA
+      .deploy({
+        data: ERC20.bytecode,
+        arguments: [
+          "tokenA",
+          "TA",
+          // 18,
+          web3.utils.toWei("9999999999999999999", "ether"),
+          sender,
+        ],
+      })
+      .send({ from: sender, gas: GasLimit, gasprice: GasPrice });
+  
+    console.log("tokenA address", tokenA.options.address);
+  
+    tokenB = await tokenB
+      .deploy({
+        data: ERC20.bytecode,
+        arguments: [
+          "tokenB",
+          "TB",
+          // 18,
+          web3.utils.toWei("9999999999999999999", "ether"),
+          sender,
+        ],
+      })
+      .send({ from: sender, gas: GasLimit, gasprice: GasPrice });
+  
+    console.log("tokenB address", tokenB.options.address);
+  
+    return [tokenA.options.address, tokenB.options.address];
+  } catch(error) {
+    console.log('ERC20 deployment went wrong! Lets see what happened...')
+    console.log(error)
+  }
 
-  tokenA = await tokenA
-    .deploy({
-      data: ERC20.bytecode,
-      arguments: [
-        "tokenA",
-        "TA",
-        // 18,
-        web3.utils.toWei("9999999999999999999", "ether"),
-        sender,
-      ],
-    })
-    .send({ from: sender, gas: gaslimit, gasprice: GasPrice });
-
-  console.log("tokenA address", tokenA.options.address);
-
-  tokenB = await tokenB
-    .deploy({
-      data: ERC20.bytecode,
-      arguments: [
-        "tokenB",
-        "TB",
-        // 18,
-        web3.utils.toWei("9999999999999999999", "ether"),
-        sender,
-      ],
-    })
-    .send({ from: sender, gas: gaslimit, gasprice: GasPrice });
-
-  console.log("tokenB address", tokenB.options.address);
-
-  return [tokenA.options.address, tokenB.options.address];
 }
 
 // deploy a uniswapV2Router
 async function deployRouter(web3, factoryAddress, wethAddress, sender) {
-  let router = new web3.eth.Contract(Router.abi);
-  router = await router
-    .deploy({ data: Router.bytecode, arguments: [factoryAddress, wethAddress] })
-    .send({ from: sender, gas: gaslimit, gasprice: GasPrice });
+  try {
+    let router = new web3.eth.Contract(Router.abi);
+    router = await router
+      .deploy({ data: Router.bytecode, arguments: [factoryAddress, wethAddress] })
+      .send({ from: sender, gas: GasLimit, gasprice: GasPrice });
+  
+    console.log("router address", router.options.address);
+  
+    return router.options.address;
+  } catch (error) {
+    console.log('Router deployment went wrong! Lets see what happened...')
+    console.log(error)
+  }
 
-  console.log("router address", router.options.address);
-
-  return router.options.address;
 }
 
 // deploy a uniswapV2Factory
 async function deployFactory(web3, feeToSetter, sender) {
-  let factory = new web3.eth.Contract(Factory.abi);
+  try {
+    let factory = new web3.eth.Contract(Factory.abi);
+    factory = await factory
+      .deploy({ data: Factory.bytecode, arguments: [feeToSetter] })
+      .send({ from: sender, gas: GasLimit, gasprice: GasPrice });
+  
+    console.log("factory address", factory.options.address);
+  
+    return factory.options.address;
+  }catch (error) {
+    console.log('Factory deployment went wrong! Lets see what happened...')
+    console.log(error)
+  }
 
-  console.log(sender);
-  factory = await factory
-    .deploy({ data: Factory.bytecode, arguments: [feeToSetter] })
-    .send({ from: sender, gas: gaslimit, gasprice: GasPrice });
-
-  console.log("factory address", factory.options.address);
-
-  return factory.options.address;
 }
 
 async function approve(tokenContract, spender, amount, sender) {
   try {
     await tokenContract.methods
       .approve(spender, amount)
-      .send({ from: sender, gas: gaslimit, gasprice: GasPrice })
+      .send({ from: sender, gas: GasLimit, gasprice: GasPrice })
       .on("transactionHash", function (hash) {
         console.log("transaction hash", hash);
       })
@@ -106,7 +128,7 @@ async function approve(tokenContract, spender, amount, sender) {
 
     await tokenContract.methods
       .approve(spender, amount)
-      .call({ from: sender, gas: gaslimit, gasprice: GasPrice });
+      .call({ from: sender, gas: GasLimit, gasprice: GasPrice });
   }
 }
 
@@ -147,9 +169,6 @@ async function checkPair(
 // the most amazing function on earth
 async function foo() {
   const web3 = new Web3(RPC);
-
-  const id = await web3.eth.net.getId();
-
   const account = web3.eth.accounts.wallet.add(prvKey);
   const myAddress = web3.utils.toChecksumAddress(account.address);
 
@@ -158,8 +177,6 @@ async function foo() {
 
   const factoryAddress = await deployFactory(web3, myAddress, myAddress);
   const factory = new web3.eth.Contract(Factory.abi, factoryAddress);
-
-  console.log("Router!");
 
   const routerAddress = await deployRouter(
     web3,
@@ -217,7 +234,7 @@ async function foo() {
       )
       .send({
         from: myAddress,
-        gas: gaslimit,
+        gas: GasLimit,
         gasprice: GasPrice,
       })
       .on("transactionHash", function (hash) {
@@ -242,7 +259,7 @@ async function foo() {
       )
       .call({
         from: myAddress,
-        gas: gaslimit,
+        gas: GasLimit,
         gasprice: GasPrice,
       });
   }
