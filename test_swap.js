@@ -57,36 +57,6 @@ const which_quote = getCliArg("which_quote");
 
 const quote = getCliArg("quote");
 
-//-------------------------------------------------------------------
-
-// const Web3 = require('web3');
-// const web3 = new Web3('https://rpc4.bakerloo.autonity.network:8545');
-
-// // Variables
-// const prvkey = '<>';
-// const router_address = '0xe34468D6698a8720464ebbb36bD2D43B07aBfEb0';
-// const tokenA_address = '0x395e91dD43afaC4712bA93012D3764CDa0Ac8b2a';
-// const tokenB_address = '0x1260d09f3fc0E270eE85C0CD77C764A314274980';
-// const weth_address = '0x846f338293cEb0e219000609B5d3041b2A18950E';
-// const factory_address = '0x8A32C557FEdd59AbbE1079bFF27c60A967E5E0aB';
-
-// // For swapping an exact ammount
-// const amountIn = web3.utils.toWei('1000', 'ether');
-// const amountOutMin = 0
-
-// // For swapping to an exact ammount
-// const amountInMax = web3.utils.toWei('1000', 'ether');
-// const amountOut = web3.utils.toWei('500', 'ether');
-
-// const which_swap = 1;
-// // choose which swap function
-
-// const swap = true;
-// // Let swap be true to swap token A, false to swap token B.
-// // If using ETH, let swap be true to swap too/from token A, false to swap too/from token B.
-
-//-------------------------------------------------------------------
-
 // Functions
 
 async function approve(tokenContract, spender, amount, sender) {

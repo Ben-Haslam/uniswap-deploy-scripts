@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# DO NOT CHANGE
-NODE_URL='https://rpc4.bakerloo.autonity.network:8545'
-weth_address='0x3f0D1FAA13cbE43D662a37690f0e8027f9D89eBF';
-factory_address='0x4EDFE8706Cefab9DCd52630adFFd00E9b93FF116'
-router_address='0x4489D87C8440B19f11d63FA2246f943F492F3F5F';
+# Network details
+NODE_URL='<ENTER HERE>'
+weth_address='<ENTER HERE>';
+factory_address='<ENTER HERE>'
+router_address='<ENTER HERE>';
 
 # Variables
 
 prvkey='<ENTER HERE>';
-tokenA_address='0x1d29BD2ACedBff15A59e946a4DE26d5257447727';
-tokenB_address='0xc108a13D00371520EbBeCc7DF5C8610C71F4FfbA';
+tokenA_address='<ENTER HERE>';
+tokenB_address='<ENTER HERE>';
 
 # For swapping from an exact amount
 amountIn=1000

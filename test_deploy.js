@@ -5,11 +5,11 @@ const ERC20 = require("./node_modules/@openzeppelin/contracts/build/contracts/ER
 const Pair = require("./node_modules/@uniswap/v2-core/build/UniswapV2Pair.json");
 const WETH = require("./node_modules/canonical-weth/build/contracts/WETH9.json");
 
-const RPC = "https://rpc.devnet.clearmatics.network:8545";
+const RPC = "<ENTER HERE>";
 // const RPC = "http://localhost:8545";
 
 const prvKey =
-  "EBE1978D0906698B98F20E26CD861C72431CC6EE67E636AB15EDE06970556AB7";
+  "<ENTER HERE>";
 
 const GasPrice = 0.000005;
 const GasLimit = 100000000;
