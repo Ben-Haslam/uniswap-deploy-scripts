@@ -1,5 +1,4 @@
-*Scripts created by Clearmatics to deploy, interact with and test unmodified Uniswap V2 contracts on an EVM blockchain*
-*This is an experimental, unsupported project*
+*Scripts to deploy, interact with and test unmodified Uniswap V2 contracts on an EVM blockchain*
 
 
 ## What is Uniswap?
