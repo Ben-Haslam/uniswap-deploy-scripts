@@ -10,18 +10,6 @@ The liquidy is supplied to the pair contracts by liquidity providers, who deposi
 
 The first part of this tutorial will cover using predeployed market maker contracts and a router contract to quote and make swaps between different tokens or AUT. The second part covers deploying and removing liquidity from the asset pool of a pair contract. To learn more about how Uniswap works, see the [product documentation][1], or read the [overview blog post][2].
 
-## Deployed contracts on Bakerloo testnet
-
-For demonstration purposes, Uniswap contracts and liquidity have already been deployed on the Bakerloo testnet to the following contracts, so any users can request some tokens (Token A and/or Token B) and AUT, and test the Uniswap functionality for themselves.
-
-```bash
-weth_address: '0x3f0D1FAA13cbE43D662a37690f0e8027f9D89eBF'
-factory_address: '0x4EDFE8706Cefab9DCd52630adFFd00E9b93FF116'
-router_address: '0x4489D87C8440B19f11d63FA2246f943F492F3F5F'
-tokenA_address: '0x1d29BD2ACedBff15A59e946a4DE26d5257447727'
-tokenB_address: '0xc108a13D00371520EbBeCc7DF5C8610C71F4FfbA'
-```
-
 ## Swap ERC20 tokens and AUT yourself
 
 To make trying out Uniswap easier, we have written a web3 JS script that automates most of the process, and a bash script that can be edited. The bash script passes variables (such as which tokens to swap, which way, how much etc.) chosen by the user. Before you can use the scripts to make swaps, checkout the setup process below. To request AUT and TokenA/TokenB so you can test it for yourself, please contact the [service desk][12].
@@ -497,14 +485,6 @@ The Approvals you can see are needed for the router contract to handle tokens on
 
 ----------------------------------------
 
-!!! Help
-
-	If you need help, you can:
-
-	- Chat to us on [Discord][1]
-  - Submit a [support ticket][2]
-	- Send an email to [bakerloo-support@clearmatics.com](mailto:bakerloo-support@clearmatics.com)
-
 
 [1]: https://uniswap.org/docs/v2/
 [2]: https://uniswap.org/blog/uniswap-v2/
@@ -513,6 +493,3 @@ The Approvals you can see are needed for the router contract to handle tokens on
 [6]: https://uniswap.org/docs/v2/core-concepts/pools/
 [7]: https://uniswap.org/docs/v2/core-concepts/swaps/
 
-
-[11]: https://discord.gg/6daqJDt
-[12]: https://support.clearmatics.com/support/tickets/new
