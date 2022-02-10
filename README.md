@@ -140,7 +140,7 @@ The use of the swap functions can be done with the bash script `test_swap.sh`, s
 #!/bin/bash
 
 # DO NOT CHANGE
-NODE_URL='https://rpc4.bakerloo.autonity.network:8545'
+NODE_URL='<RPC NODE>'
 weth_address='0x3f0D1FAA13cbE43D662a37690f0e8027f9D89eBF';
 factory_address='0x4EDFE8706Cefab9DCd52630adFFd00E9b93FF116'
 router_address='0x4489D87C8440B19f11d63FA2246f943F492F3F5F';
@@ -315,7 +315,7 @@ Like with the swap functions, adding liquity is best done by editing a bash scri
 #!/bin/bash
 
 # DO NOT CHANGE
-NODE_URL='https://rpc4.bakerloo.autonity.network:8545'
+NODE_URL='<RPC NODE>'
 weth_address='0x3f0D1FAA13cbE43D662a37690f0e8027f9D89eBF';
 factory_address='0x4EDFE8706Cefab9DCd52630adFFd00E9b93FF116'
 router_address='0x4489D87C8440B19f11d63FA2246f943F492F3F5F';
