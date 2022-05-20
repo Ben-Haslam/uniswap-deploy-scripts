@@ -11,15 +11,15 @@ The first part of this tutorial will cover using predeployed market maker contra
 
 ## Swap ERC20 tokens and AUT yourself
 
-To make trying out Uniswap easier, we have written a web3 JS script that automates most of the process, and a bash script that can be edited. The bash script passes variables (such as which tokens to swap, which way, how much etc.) chosen by the user. Before you can use the scripts to make swaps, checkout the setup process below. To request AUT and TokenA/TokenB so you can test it for yourself, please contact the [service desk][12].
+To make trying out Uniswap easier, we have written a web3 JS script that automates most of the process, and a bash script that can be edited. The bash script passes variables (such as which tokens to swap, which way, how much etc.) chosen by the user. Before you can use the scripts to make swaps, checkout the setup process below.
 
 ### Setup
 
-- Download the Clearmatics Uniswap repo: 
+- Download the uniswap-deploy-scripts repo: 
 
 ```bash
 
-git clone git@github.com:clearmatics/uniswap.git
+git clone git@github.com:Ben-Haslam/uniswap-deploy-scripts.git
 cd uniswap
 ```
 
